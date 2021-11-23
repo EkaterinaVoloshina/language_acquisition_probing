@@ -13,15 +13,15 @@ class LogRegClassification(object):
         self.y_train, self.y_test = labels
         self.checkpoints = checkpoints
         self.enc = LabelEncoder()
+        self.logreg = LogisticRegression()
 
     def classify(self):
         """
         Trains a logistic regression and predicts labels
         :return: metrics of logistic regression perfomance
         """
-        logreg = LogisticRegression()
-        logreg.fit(X_train, y_train)
-        y_pred = logreg.predict(X_test)
+        self.logreg.fit(X_train, y_train)
+        y_pred = self.logreg.predict(X_test)
         return (y_pred, accuracy_score(y_test, y_pred), precision_score(y_test, y_pred, average='micro'),
               recall_score(y_test, y_pred, average='micro'), f1_score(y_test, y_pred, 'micro'))
 
