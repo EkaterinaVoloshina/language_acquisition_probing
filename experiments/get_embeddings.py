@@ -82,7 +82,7 @@ class Embeddings(object):
             pickle.dump(embeddings, f)
 
     def calculate(self):
-        for checkpoint in tqdm(self.checkpoints):
+        for checkpoint in tqdm(range(self.checkpoints)):
             path = self.path[checkpoint]
             embs = self.calculate_embeddings(path)
             self.save_embeddings(embs, checkpoint)
