@@ -44,7 +44,10 @@ class Embeddings(object):
               return_dict=True
             )
         emb = output.hidden_states
-        return [torch.mean(e, 1).squeeze(0).cpu().numpy() for e in emb]
+        mean_pool = np.zeros((self.size, 7))
+        for num, e in enumerate(emb):
+            mean_pool[:,num] = torch.mean(e, 1).squeeze(0).cpu().numpy()
+        return mean_pool
 
     def calculate_embeddings(self, path):
         """
@@ -55,7 +58,7 @@ class Embeddings(object):
         """
         model, tokenizer = self.load_model(path)
         print('Model is loaded')
-        embeddings = np.zeros((len(self.sentences), self.size))
+        embeddings = np.zeros((len(self.sentences), self.size, 7))
         for i, sentence in enumerate(self.sentences):
             embeddings[i] = self.get_emb(sentence, model, tokenizer)
         print('Embeddings are calculated')
