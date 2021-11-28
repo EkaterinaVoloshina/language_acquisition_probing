@@ -55,7 +55,7 @@ class Embeddings(object):
               return_dict=True
             )
         emb = output.hidden_states
-        print(enc['attention_mask'])
+        print(enc['attention_mask'].shape)
         return [self.mean_pooling(e, enc['attention_mask']) for e in emb]
 
     def calculate_embeddings(self, path):
