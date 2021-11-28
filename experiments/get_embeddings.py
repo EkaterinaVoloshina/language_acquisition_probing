@@ -8,10 +8,11 @@ device = 'cuda:0'
 
 
 class Embeddings(object):
-    def __init__(self, path, sentences, checkpoints):
+    def __init__(self, path, sentences, checkpoints, size):
         self.path = path
         self.sentences = sentences
         self.checkpoints = checkpoints
+        self.size = size
 
     def load_model(self, checkpoint_path):
         """
@@ -65,7 +66,7 @@ class Embeddings(object):
         """
         model, tokenizer = self.load_model(path)
         print('Model is loaded')
-        embeddings = np.zeros((len(self.sentences), model))
+        embeddings = np.zeros((len(self.sentences), self.size))
         for i, sentence in enumerate(self.sentences):
             embeddings[i] = self.get_emb(sentence, model, tokenizer)
         print('Embeddings are calculated')
