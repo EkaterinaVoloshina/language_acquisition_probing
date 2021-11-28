@@ -26,17 +26,6 @@ class Embeddings(object):
         model.to(device)
         return model, tokenizer
 
-    def mean_pooling(self, model_output, attention_mask):
-        """
-        Calculates the mean embedding of a sentence
-        :param model_output: the output of a transformer model, TorchTensor
-        :param attention_mask: attention, TorchTensor
-        :return: mean embedding, TorchTensor
-        """
-        token_embeddings = model_output[0]
-        input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
-        emb = torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9).squeeze(0).cpu().numpy()
-        return emb
 
     def get_emb(self, sent, model, tokenizer):
         """
@@ -55,8 +44,7 @@ class Embeddings(object):
               return_dict=True
             )
         emb = output.hidden_states
-        print(enc['attention_mask'].shape)
-        return [self.mean_pooling(e, enc['attention_mask']) for e in emb]
+        return [torch.mean(e, 1).squeeze(0).cpu().numpy() for e in emb]
 
     def calculate_embeddings(self, path):
         """
