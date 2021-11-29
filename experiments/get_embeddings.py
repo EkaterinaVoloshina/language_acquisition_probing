@@ -38,11 +38,12 @@ class Embeddings(object):
         with torch.no_grad():
             enc = tokenizer(sent, padding=True, truncation=True, return_tensors='pt')
             enc.to(device)
-            output = model.encoder(
+            output = model(
               input_ids=enc['input_ids'],
-              attention_mask=enc['attention_mask'],
+              decoder_input_ids=enc['input_ids'],
               return_dict=True
             )
+        emb = output.decoder_hidden_states
         emb = output.hidden_states
         mean_pool = np.zeros((self.size, 7))
         for num, e in enumerate(emb):
