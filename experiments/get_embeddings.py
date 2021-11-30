@@ -44,7 +44,6 @@ class Embeddings(object):
               return_dict=True
             )
         emb = output.decoder_hidden_states
-        emb = output.hidden_states
         mean_pool = np.zeros((self.size, 7))
         for num, e in enumerate(emb):
             mean_pool[:,num] = torch.mean(e, 1).squeeze(0).cpu().numpy()
