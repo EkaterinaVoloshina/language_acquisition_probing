@@ -58,5 +58,7 @@ class LogRegClassification(object):
             predictions.append(pred)
             scores.append(score)
         self.write_to_files(predictions, scores)
+        with open('tfidf.pickle', 'wb') as fin:
+            pickle.dump(self.logreg, fin)
         return predictions, scores
 
