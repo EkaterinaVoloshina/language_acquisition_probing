@@ -48,7 +48,7 @@ class Embeddings(object):
         y = torch.tensor(self.labels, dtype=torch.long)
         input_ids, attention_mask = self.encode(tokenizer)
         tensor_dataset = torch.utils.data.TensorDataset(input_ids, attention_mask, y)
-        tensor_dataloader = torch.utils.data.DataLoader(tensor_dataset, shuffle=True, batch_size=self.batch_size)
+        tensor_dataloader = torch.utils.data.DataLoader(tensor_dataset, batch_size=self.batch_size)
         return tensor_dataloader
 
     def mean_pooling(self, model_output, attention_mask):
