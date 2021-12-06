@@ -114,5 +114,5 @@ class Embeddings(object):
     def calculate(self):
         for checkpoint in tqdm(range(self.checkpoints)):
             path = self.path[checkpoint]
-            embs = self.calculate_embeddings(path)
+            embs, labels = self.calculate_embeddings(path)
             self.save_embeddings(embs, checkpoint)
