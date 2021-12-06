@@ -52,7 +52,7 @@ class Embeddings(object):
         return tensor_dataloader
 
     def mean_pooling(self, model_output, attention_mask):
-        tokens = np.zeros((self.batch_size, self.size, 7))
+        tokens = np.zeros((self.model_output[0].shape[0], self.size, 7))
         for num, i in enumerate(model_output):
             tokens[:,:, num] = i[:,0,:].cpu().detach().numpy()
         input_mask_expanded = attention_mask.unsqueeze(-1).expand(tokens.shape).float().cpu().detach().numpy()
